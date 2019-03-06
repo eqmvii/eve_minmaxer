@@ -5,4 +5,5 @@
 <ul>
   <li>Name:<%= @name %></li>
   <li>PLEX Price: <%= @plex_price %>
+  <li>Name from the DB: <%= @name_from_db %>
 </ul>
