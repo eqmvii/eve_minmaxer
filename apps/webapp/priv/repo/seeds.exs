@@ -9,3 +9,5 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+Webapp.Repo.insert!(%Webapp.Testtable{id: 2, name: "Inserted from seeds"});
