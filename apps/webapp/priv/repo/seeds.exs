@@ -11,3 +11,7 @@
 # and so on) as they will fail if something goes wrong.
 
 Webapp.Repo.insert!(%Webapp.Testtable{id: 2, name: "Inserted from seeds"});
+
+# heroku run mix run apps/webapp/priv/repo/seeds.exs
+
+# Worked but threw some errors about multiple connections along the way idk
