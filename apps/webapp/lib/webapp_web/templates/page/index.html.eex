@@ -1,7 +1,3 @@
-<section class="phx-hero">
-  <h1><%= gettext "Hello %{name}! Live reload works.", name: "Eric" %></h1>
-</section>
-
 <ul>
   <li>Name:<%= @name %></li>
   <li>PLEX Price: <%= @plex_price %>
