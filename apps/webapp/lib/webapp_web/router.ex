@@ -17,6 +17,8 @@ defmodule WebappWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/market", MarketController, :index
+    post "/market", MarketController, :search
   end
 
   # Other scopes may use custom stacks.

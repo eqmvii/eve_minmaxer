@@ -1,0 +1,6 @@
+<h1>Market</h1>
+
+<%= form_for @conn, Routes.market_path(@conn, :search), [as: :search], fn f -> %>
+  <%= text_input f, :for %>
+  <%= submit "Search" %>
+<% end %>

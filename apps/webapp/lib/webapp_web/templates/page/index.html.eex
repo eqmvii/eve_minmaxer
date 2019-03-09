@@ -1,3 +1,12 @@
+<h2>Links:</h2>
+  <ul>
+    <li><a href="/market">Market</a>
+  </ul>
+
+<hr />
+
+<h2>API and DB Health Indicators:</h2>
+
 <ul>
   <li>Name:<%= @name %></li>
   <li>PLEX Price: <%= @plex_price %>
