@@ -13,7 +13,8 @@
         <nav role="navigation">
           <ul>
             <%# <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li> %>
-            <li>Nav Coming Soon</li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/market">Market</a></li>
           </ul>
         </nav>
       </section>

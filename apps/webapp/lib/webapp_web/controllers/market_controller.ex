@@ -4,6 +4,7 @@ defmodule WebappWeb.MarketController do
   import Ecto.Query, warn: false
   alias Webapp.Repo
   alias Webapp.Testtable
+  alias WebappWeb.MarketService
 
   def index(conn, _params) do
     render(conn, "index.html")
@@ -11,7 +12,11 @@ defmodule WebappWeb.MarketController do
 
   def search(conn, params) do
     IO.inspect params
-    render(conn, "index.html")
+
+    conn
+    |> assign(:test_message, MarketService.hello())
+    |> assign(:searched_for, params["search"]["for"])
+    |> render("index.html")
   end
 end
 

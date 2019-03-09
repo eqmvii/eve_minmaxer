@@ -2,5 +2,13 @@
 
 <%= form_for @conn, Routes.market_path(@conn, :search), [as: :search], fn f -> %>
   <%= text_input f, :for %>
+  <br />
   <%= submit "Search" %>
+<% end %>
+
+<hr />
+
+<%= if assigns[:searched_for] do %>
+  <h2>Results For "<%= @conn.assigns.searched_for %>"</h2>
+  <%= @conn.assigns.test_message %>
 <% end %>
