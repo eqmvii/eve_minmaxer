@@ -11,11 +11,13 @@ defmodule WebappWeb.MarketController do
   end
 
   def search(conn, params) do
-    IO.inspect params
+    IO.inspect params # TODO ERIC remove debugging
+
+    item_search_results = MarketService.item_search(params["search"]["for"])
 
     conn
-    |> assign(:test_message, MarketService.hello())
     |> assign(:searched_for, params["search"]["for"])
+    |> assign(:search_result, item_search_results)
     |> render("index.html")
   end
 end

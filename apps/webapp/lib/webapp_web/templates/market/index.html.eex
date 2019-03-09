@@ -9,6 +9,6 @@
 <hr />
 
 <%= if assigns[:searched_for] do %>
-  <h2>Results For "<%= @conn.assigns.searched_for %>"</h2>
-  <%= @conn.assigns.test_message %>
+  <h2>Results For "<%=assigns[:searched_for] %>"</h2>
+  <%= assigns[:search_result] %>
 <% end %>

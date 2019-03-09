@@ -12,7 +12,7 @@ mix phx.server
 
 who knows how that happened but it did ~
 
-# TODO
+# Things To Do
 
 build stuff
 
