@@ -38,7 +38,7 @@ defmodule EsiApi do
     plex_price_info =
       all_prices
       |> Poison.decode!()
-      |> Enum.filter(fn x -> x["type_id"] == 44992 end) # PLEX type_id = 44992
+      |> Enum.filter(fn x -> x["type_id"] == 44992 end) # PLEX type_id = 44992 # TODO ERIC make less bad
       |> Enum.at(0)
 
     plex_price_info["average_price"]

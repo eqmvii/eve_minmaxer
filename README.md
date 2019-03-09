@@ -2,6 +2,8 @@
 
 A tool for fetching EVE: Online market prices and Optimizing All Kinds Of Things
 
+Currently an early WIP that does market searches.
+
 # Run
 
 mix phx.server
@@ -14,5 +16,6 @@ who knows how that happened but it did ~
 
 # Things To Do
 
-build stuff
+build more stuff
+Write more tests
 
