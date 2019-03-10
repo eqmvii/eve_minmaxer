@@ -20,6 +20,10 @@ cd apps/webapp
 mix ecto.gen.migration items
 mix ecto.migrate
 
+# Migrations on heroku log
+
+heroku run mix ecto.migrate
+
 # Things To Do
 
 build more stuff
