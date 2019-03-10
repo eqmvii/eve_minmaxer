@@ -20,13 +20,21 @@ cd apps/webapp
 mix ecto.gen.migration items
 mix ecto.migrate
 
+cd apps/webapp
+mix ecto.gen.migration prices
+mix ecto.migrate
+
 # Migrations on heroku log
 
-heroku run mix ecto.migrate
+items:
+`heroku run mix ecto.migrate`
+
+prices:
+`heroku run mix ecto.migrate`
 
 # Things To Do
 
-* Wire up historical prices table
+* Refactor prices and make it have a concept of freshness
 * Write tests
 * Build out universe info
 * Rename heroku app

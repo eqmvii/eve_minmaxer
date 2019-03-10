@@ -25,5 +25,10 @@
       <%= render @view_module, @view_template, assigns %>
     </main>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+    <br />
+    <hr />
+    <div class="footer">
+      <a href="https://github.com/eqmvii/eve_minmaxer">Github</a>
+    </div>
   </body>
 </html>
