@@ -1,0 +1,10 @@
+<h1>Saved Items</h1>
+
+<%# TODO ERIC idk use a table %>
+<ul>
+  <%= for item <- @items do %>
+    <li>
+      name: <%= item.name %> | type_id: <%= item.type_id %>
+    </li>
+  <% end %>
+</ul>

@@ -1,7 +1,7 @@
 <h1>Market</h1>
 
-<%= form_for @conn, Routes.market_path(@conn, :search), [as: :search], fn f -> %>
-  <%= text_input f, :for %>
+<%= form_for @conn, Routes.market_path(@conn, :search), fn f -> %>
+  <%= text_input f, :search %>
   <br />
   <%= submit "Search" %>
 <% end %>

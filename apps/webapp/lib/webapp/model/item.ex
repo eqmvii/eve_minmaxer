@@ -36,7 +36,11 @@ defmodule Webapp.Model.Item do
     Repo.one(query)
   end
 
-  def add_new(name, type_id)do
+  def add_new(name, type_id) do
     Repo.insert!(%__MODULE__{name: name, type_id: type_id})
+  end
+
+  def get_all() do
+    Repo.all(__MODULE__)
   end
 end
