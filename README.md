@@ -26,6 +26,8 @@ heroku run mix ecto.migrate
 
 # Things To Do
 
-build more stuff
-Write more tests
+* Wire up historical prices table
+* Write tests
+* Build out universe info
+* Rename heroku app
 

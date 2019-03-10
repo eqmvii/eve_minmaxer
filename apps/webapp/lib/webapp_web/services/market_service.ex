@@ -1,7 +1,4 @@
 defmodule WebappWeb.MarketService do
-  import Ecto.Query, warn: false
-  alias Webapp.Repo
-  alias Webapp.Model.Testtable
   alias Webapp.Model.Item
 
   def hello do
@@ -17,6 +14,7 @@ defmodule WebappWeb.MarketService do
     |> get_price()
   end
 
+  @spec get_type_id_from_db(String.t()) :: {String.t(), String.t()} | {String.t(), nil}
   defp get_type_id_from_db(name) do
     {name, Item.get_type_id_from_name(name)}
   end
