@@ -10,7 +10,7 @@ defmodule Webapp.Model.Item do
     field :name, :string
     field :type_id, :integer
 
-    # TODO ERIC: has many prices
+    has_many :prices, Webapp.Model.Price
 
     timestamps()
   end
@@ -20,7 +20,7 @@ defmodule Webapp.Model.Item do
     item
     |> cast(attrs, [:name, :type_id])
     |> validate_required([:name, :type_id])
-    |> unique_constraint(:name) # TODO ERIC add type_id?
+    |> unique_constraint([:name, :type_id])
   end
 
   ##

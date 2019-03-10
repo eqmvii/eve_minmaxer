@@ -21,13 +21,18 @@ defmodule EsiApi do
   end
 
   def price_from_type_id(type_id) do
-    {:ok, all_prices} = request(@base_url <> "markets/prices/?datasource=tranquility")
+    {:ok, all_prices} = request(@base_url <> "markets/prices/?datasource=tranquility") # TODO ERIC Handle {:error, :timeout}
+
+
 
     item_price_info =
       all_prices
       |> Poison.decode!()
       |> Enum.filter(fn x -> x["type_id"] == type_id end) # PLEX type_id = 44992
       |> Enum.at(0)
+
+     # TODO ERIC: Refactor this to not be an API-level side effect
+    Webapp.Model.Price.add_new(item_price_info) # TODO ERIC This is very much the wrong place to do this
 
     item_price_info["average_price"]
   end
