@@ -3,7 +3,7 @@ defmodule WebappWeb.MarketController do
 
   import Ecto.Query, warn: false
   alias Webapp.Repo
-  alias Webapp.Testtable
+  alias Webapp.Model.Testtable
   alias WebappWeb.MarketService
 
   def index(conn, _params) do

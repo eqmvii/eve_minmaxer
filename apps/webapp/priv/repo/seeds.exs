@@ -10,7 +10,7 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
-Webapp.Repo.insert!(%Webapp.Testtable{id: 2, name: "Inserted from seeds"});
+Webapp.Repo.insert!(%Webapp.Model.Testtable{id: 2, name: "Inserted from seeds"});
 
 # heroku run mix run apps/webapp/priv/repo/seeds.exs
 

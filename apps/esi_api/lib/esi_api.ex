@@ -11,12 +11,13 @@ defmodule EsiApi do
   end
 
   def item_search(item_name) do # TODO ERIC: Add configuration
-    {:ok, item_data} = request(@base_url <> "search/?categories=inventory_type&datasource=tranquility&language=en-us&search=#{item_name}&strict=true")
-    item_data = Poison.decode!(item_data)
+    {:ok, item_data} =
+      request(@base_url <> "search/?categories=inventory_type&datasource=tranquility&language=en-us&search=#{item_name}&strict=true")
 
-    # raise inspect item_data, pretty: true, limit: :infinity
-    item_data["inventory_type"]
-    |> Enum.at(0)
+    case Poison.decode!(item_data) do
+      %{"inventory_type" => inventory_type} -> Enum.at(inventory_type, 0)
+      _ -> nil # TODO ERIC: Are we happy with this response messaging?
+    end
   end
 
   def price_from_type_id(type_id) do

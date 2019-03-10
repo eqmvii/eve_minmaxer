@@ -14,6 +14,12 @@ mix phx.server
 
 who knows how that happened but it did ~
 
+# Things done
+
+cd apps/webapp
+mix ecto.gen.migration items
+mix ecto.migrate
+
 # Things To Do
 
 build more stuff

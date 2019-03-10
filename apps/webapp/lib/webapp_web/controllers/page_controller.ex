@@ -3,7 +3,7 @@ defmodule WebappWeb.PageController do
 
   import Ecto.Query, warn: false
   alias Webapp.Repo
-  alias Webapp.Testtable
+  alias Webapp.Model.Testtable
 
   def index(conn, _params) do
     # all of this is terrible hackery

@@ -1,4 +1,4 @@
-defmodule Webapp.Testtable do
+defmodule Webapp.Model.Testtable do
   use Ecto.Schema
   import Ecto.Changeset
 
