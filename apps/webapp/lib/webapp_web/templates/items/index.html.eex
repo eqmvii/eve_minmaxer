@@ -4,7 +4,7 @@
 <ul>
   <%= for item <- @items do %>
     <li>
-      name: <%= item.name %> | type_id: <%= item.type_id %>
+      <a href="/market?search=<%= item.name %>"><%= item.name %></a> (type_id: <%= item.type_id %>)gi
     </li>
   <% end %>
 </ul>
