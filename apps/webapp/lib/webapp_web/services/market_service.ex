@@ -6,8 +6,6 @@ defmodule WebappWeb.MarketService do
     "world"
   end
 
-  # TODO ERIC Probably refactor all of this
-
   def item_search(search_term) do # TODO ERIC -- html encode the spaces for multi word items
     with {:ok, type_id} <- get_type_id(search_term),
          {:ok, price} <- get_price(type_id)
@@ -32,10 +30,10 @@ defmodule WebappWeb.MarketService do
     end
   end
 
-  defp get_price(nil), do: {:error, "Error: Invalid Search Input"}
+  defp get_price(nil), do: {:error, "Error: Invalid Search Input"} # TODO ERIC unnecessary now?
   defp get_price(type_id) do
     case Price.get_current_price(type_id) do
-      nil -> EsiApi.price_from_type_id(type_id)
+      nil -> get_price_from_api(type_id)
       price -> {:ok, price}
     end
   end
@@ -45,6 +43,19 @@ defmodule WebappWeb.MarketService do
     Item.add_new(name, type_id)
 
     {:ok, type_id}
+  end
+
+  defp get_price_from_api(type_id) do
+    case EsiApi.price_from_type_id(type_id) do
+      {:ok, price} -> save_price_to_db(price)
+      {:error, message} -> {:error, message} # TODO refactor line?
+    end
+  end
+
+  defp save_price_to_db(price) do
+    Webapp.Model.Price.add_new(price)
+
+    {:ok, price}
   end
 end
 

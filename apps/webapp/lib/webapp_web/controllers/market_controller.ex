@@ -35,8 +35,6 @@ defmodule WebappWeb.MarketController do
         {:error, message} -> "Error with search: #{message}"
       end
 
-    # Webapp.Model.Price.add_new(item_price_info) # TODO ERIC find a better place for this
-
     conn
     |> assign(:searched_for, params["search"])
     |> assign(:search_result, item_search_results)

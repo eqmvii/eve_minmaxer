@@ -46,7 +46,7 @@ defmodule Webapp.Model.Price do
         where: price.type_id == ^type_id,
         select: price.average_price
 
-    Repo.one(query)
+    Repo.one(query) # TODO ERIC: return all of the data instead?
   end
 
   # def get_all() do
