@@ -11,6 +11,7 @@
 
 <%= if assigns[:searched_for] do %>
   <h2>Results For "<%=assigns[:searched_for] %>"</h2>
+  <%# raise inspect assigns[:search_result] # TODO ERIC REMOVE %>
   <%= assigns[:search_result] %>
 <% else %>
   <h2>Search for something to see its price</h2>

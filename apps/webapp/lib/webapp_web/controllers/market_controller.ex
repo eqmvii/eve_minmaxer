@@ -9,7 +9,12 @@ defmodule WebappWeb.MarketController do
   def index(conn, %{"search" => search_term}) do # TODO ERIC ugh make this dry with search
     # raise inspect search_term # TODO ERIC remove debugging
 
-    item_search_results = MarketService.item_search(search_term)
+    item_search_results =
+      case MarketService.item_search(search_term) do
+        {:ok, %{"average_price" => price}} -> price
+        {:ok, price} -> price # TODO oh no not this this is so bad
+        {:error, message} -> "Error with search: #{message}"
+      end
 
     conn
     |> assign(:searched_for, search_term)
@@ -23,7 +28,14 @@ defmodule WebappWeb.MarketController do
   def search(conn, params) do
     IO.inspect params # TODO ERIC remove debugging
 
-    item_search_results = MarketService.item_search(params["search"])
+    item_search_results =
+      case MarketService.item_search(params["search"]) do
+        {:ok, %{"average_price" => price}} -> price
+        {:ok, price} -> price # TODO oh no not this this is so bad
+        {:error, message} -> "Error with search: #{message}"
+      end
+
+    # Webapp.Model.Price.add_new(item_price_info) # TODO ERIC find a better place for this
 
     conn
     |> assign(:searched_for, params["search"])
