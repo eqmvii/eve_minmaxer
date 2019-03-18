@@ -21,7 +21,7 @@ defmodule EsiApi do
   defp decode_item_data(item_data) do
     case Poison.decode!(item_data) do
       %{"inventory_type" => inventory_type} -> {:ok, Enum.at(inventory_type, 0)}
-      _ -> {:error, "Search Error"}
+      _ -> {:error, "Search Error: #{item_data}"}
     end
   end
 
