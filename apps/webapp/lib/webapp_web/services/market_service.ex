@@ -33,7 +33,7 @@ defmodule WebappWeb.MarketService do
   end
 
   defp get_price(type_id) do
-    case Price.get_current_price(type_id) do
+    case Price.get_fresh_price(type_id) do
       nil -> get_price_from_api(type_id)
       price -> {:ok, price}
     end
@@ -57,7 +57,7 @@ defmodule WebappWeb.MarketService do
   end
 
   defp save_price_to_db(price) do
-    Webapp.Model.Price.add_new(price)
+    Webapp.Model.Price.add_or_update(price)
 
     {:ok, price}
   end

@@ -6,7 +6,17 @@ Currently an early WIP that does market searches.
 
 # Run
 
-mix phx.server
+`mix phx.server`
+
+or interactive console style
+
+`iex -S mix`
+
+and
+
+`recompile`
+
+ as needed
 
 # lol it's on heroku
 
@@ -34,8 +44,18 @@ prices:
 
 # Things To Do
 
+Biggest issue: Only one price is stored, historically, forever. Make it update for prices that are stale.
+
 * Refactor prices and make it have a concept of freshness
 * Write tests
 * Build out universe info
 * Rename heroku app
 
+# Datagrip!
+
+Installed and working. Helpfully queries:
+
+`
+SELECT items.*, prices.average_price FROM items
+  JOIN prices on items.type_id = prices.type_id
+`

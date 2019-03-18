@@ -25,5 +25,9 @@ defmodule WebappWeb.PageController do
   def get_test_data do
     Repo.all(Testtable)
   end
+
+  def skills(conn, _params) do # TODO ERIC finish this
+    render(conn, "index.html")
+  end
 end
 

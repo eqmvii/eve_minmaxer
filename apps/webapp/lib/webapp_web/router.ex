@@ -17,6 +17,7 @@ defmodule WebappWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/skills", PageController, :skills
 
     get "/market", MarketController, :index
     post "/market", MarketController, :search
