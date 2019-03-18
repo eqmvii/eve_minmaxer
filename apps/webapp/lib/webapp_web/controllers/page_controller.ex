@@ -4,6 +4,7 @@ defmodule WebappWeb.PageController do
   import Ecto.Query, warn: false
   alias Webapp.Repo
   alias Webapp.Model.Testtable
+  alias WebappWeb.Formatter
 
   def index(conn, _params) do
     # all of this is terrible hackery
@@ -40,10 +41,10 @@ defmodule WebappWeb.PageController do
          {:ok, extractor_price} <- WebappWeb.MarketService.item_search("skill%20extractor")
     do
       monthly_profit = calc_monthly_profic(injector_price, plex_price, extractor_price)
-      {:ok, %{injector_price: nerdify(injector_price),
-              plex_price: nerdify(plex_price),
-              extractor_price: nerdify(extractor_price),
-              monthly_profit: nerdify(monthly_profit)
+      {:ok, %{injector_price: Formatter.shorthand(injector_price),
+              plex_price: Formatter.shorthand(plex_price),
+              extractor_price: Formatter.shorthand(extractor_price),
+              monthly_profit: Formatter.shorthand(monthly_profit)
              }
       }
     else
@@ -72,39 +73,6 @@ defmodule WebappWeb.PageController do
     total = (injectors_per_month * profit_per_injector) - monthly_sub_cost
 
     total
-  end
-
-  defp nerdify(number) do # TODO refactor and/or move elsewhere -- view, something like conn common, etc.?
-    digits =
-      number
-      |> round()
-      |> to_string
-      |> String.replace_leading("-", "")
-      |> String.length()
-
-    cond do
-      digits >= 13 ->
-        number
-        |> process_string_to_money(1_000_000_000, " Trillion")
-      digits >= 10 ->
-        number
-        |> process_string_to_money(1_000_000, " Billion")
-      digits >= 7 ->
-        number
-        |> process_string_to_money(1_000_000, " Million")
-      true ->
-        number
-        |> Float.round()
-        |> to_string()
-    end
-  end
-
-  defp process_string_to_money(number, divisor, unit) do
-    number
-    |> Kernel./(divisor)
-    |> Float.floor(2)
-    |> to_string()
-    |> Kernel.<>(unit)
   end
 end
 
