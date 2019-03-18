@@ -82,30 +82,29 @@ defmodule WebappWeb.PageController do
       |> String.replace_leading("-", "")
       |> String.length()
 
-    modifier =
-      cond do
-        digits >= 13 ->
-          " Trillion"
-        digits >= 10 ->
-          " Billion"
-        digits >= 7 ->
-          " Million"
-        true ->
-          ""
-      end
+    cond do
+      digits >= 13 ->
+        number
+        |> process_string_to_money(1_000_000_000, " Trillion")
+      digits >= 10 ->
+        number
+        |> process_string_to_money(1_000_000, " Billion")
+      digits >= 7 ->
+        number
+        |> process_string_to_money(1_000_000, " Million")
+      true ->
+        number
+        |> Float.round()
+        |> to_string()
+    end
+  end
 
-    divisor =
-      case modifier do
-        " Trillion" -> 1_000_000_000_000
-        " Billion" -> 1_000_000_000
-        " Million" -> 1_000_000
-        "" -> 1
-      end
-
-    (number / divisor)
+  defp process_string_to_money(number, divisor, unit) do
+    number
+    |> Kernel./(divisor)
     |> Float.floor(2)
-    |> to_string
-    |> Kernel.<>(modifier)
+    |> to_string()
+    |> Kernel.<>(unit)
   end
 end
 
