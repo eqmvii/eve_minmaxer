@@ -16,6 +16,8 @@ defmodule WebappWeb.MarketService do
     end
   end
 
+  ### Private Methods
+
   defp get_type_id(search_term) do
     case Item.get_type_id_from_name(search_term) do
       nil -> get_type_id_from_api(search_term)
@@ -30,7 +32,6 @@ defmodule WebappWeb.MarketService do
     end
   end
 
-  defp get_price(nil), do: {:error, "Error: Invalid Search Input"} # TODO ERIC unnecessary now?
   defp get_price(type_id) do
     case Price.get_current_price(type_id) do
       nil -> get_price_from_api(type_id)
@@ -38,18 +39,21 @@ defmodule WebappWeb.MarketService do
     end
   end
 
-  # TODO ERIC consider better error handling here?
-  defp add_item_to_db({name, type_id}) do
-    Item.add_new(name, type_id)
-
-    {:ok, type_id}
-  end
-
   defp get_price_from_api(type_id) do
     case EsiApi.price_from_type_id(type_id) do
       {:ok, price} -> save_price_to_db(price)
       {:error, message} -> {:error, message} # TODO refactor line?
     end
+  end
+
+  #
+  # Persistance
+  #
+
+  defp add_item_to_db({name, type_id}) do
+    Item.add_new(name, type_id)
+
+    {:ok, type_id}
   end
 
   defp save_price_to_db(price) do
