@@ -20,7 +20,7 @@ defmodule WebappWeb.Router do
     get "/skills", PageController, :skills
 
     get "/market", MarketController, :index
-    post "/market", MarketController, :search
+    post "/market", MarketController, :index
 
     get "/items", ItemsController, :index
   end

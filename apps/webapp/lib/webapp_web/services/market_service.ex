@@ -59,7 +59,7 @@ defmodule WebappWeb.MarketService do
   defp save_price_to_db(price) do
     Webapp.Model.Price.add_or_update(price)
 
-    {:ok, price}
+    {:ok, price["average_price"]}
   end
 end
 

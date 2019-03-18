@@ -26,6 +26,7 @@ defmodule WebappWeb.PageController do
     Repo.all(Testtable)
   end
 
+  # TODO ERIC BUG: Doesn't work on first search, winds up multiplying tuples in a broken way
   def skills(conn, _params) do # TODO ERIC finish this, move elsewhere, factor in taxes, and get jita high/low
     case fetch_skill_data do
       {:ok, prices} -> render(conn, "skills.html", prices: prices)
