@@ -10,10 +10,10 @@ defmodule WebappWeb.Formatter do
     cond do
       digits >= 13 ->
         number
-        |> process_string_to_money(1_000_000_000, " Trillion")
+        |> process_string_to_money(1_000_000_000_000, " Trillion")
       digits >= 10 ->
         number
-        |> process_string_to_money(1_000_000, " Billion")
+        |> process_string_to_money(1_000_000_000, " Billion")
       digits >= 7 ->
         number
         |> process_string_to_money(1_000_000, " Million")
