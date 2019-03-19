@@ -93,7 +93,7 @@ defmodule EsiApi do
 
   def plex_price do
     # PLEX type_id = 44992
-    {:ok, all_prices} = request(@base_url <> "markets/prices/?datasource=tranquility")
+    {:ok, all_prices} = request(@base_url <> "/markets/prices/?datasource=tranquility")
 
     plex_price_info =
       all_prices
