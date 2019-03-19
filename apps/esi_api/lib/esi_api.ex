@@ -80,7 +80,7 @@ defmodule EsiApi do
   end
 
   def price_from_type_id(type_id) do
-    {:ok, all_prices} = request(@base_url <> "markets/prices/?datasource=tranquility") # TODO ERIC Handle {:error, :timeout}
+    {:ok, all_prices} = request(@base_url <> "/markets/prices/?datasource=tranquility") # TODO ERIC Handle {:error, :timeout}
 
     price_data =
       all_prices
