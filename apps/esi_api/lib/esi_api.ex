@@ -40,7 +40,7 @@ defmodule EsiApi do
          {:ok, decoded_data} <- parse_market_data(item_data),
          {:ok, lowest_sell_price} <- fetch_lowest(decoded_data)
     do
-      raise inspect lowest_sell_price
+      {:ok, lowest_sell_price}
     else
       err -> raise inspect err, pretty: true, limit: :infinity
     end
@@ -66,10 +66,13 @@ defmodule EsiApi do
   end
 
   def fetch_lowest(decoded_data) do
-    decoded_data
-    |> Enum.reject(fn x -> x["location_id"] != @jita_station_id end)
-    |> Enum.map(fn x -> x["price"] end)
-    |> Enum.min()
+    min_price =
+      decoded_data
+      |> Enum.reject(fn x -> x["location_id"] != @jita_station_id end)
+      |> Enum.map(fn x -> x["price"] end)
+      |> Enum.min()
+
+    {:ok, min_price}
   end
 
   defp decode_item_data(item_data) do

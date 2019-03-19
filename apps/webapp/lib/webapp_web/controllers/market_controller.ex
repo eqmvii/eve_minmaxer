@@ -5,6 +5,7 @@ defmodule WebappWeb.MarketController do
   alias Webapp.Repo
   alias Webapp.Model.Testtable
   alias WebappWeb.MarketService
+  alias WebappWeb.Formatter
 
   def index(conn, %{"search" => search_term}) do
     item_search_results =
@@ -20,6 +21,22 @@ defmodule WebappWeb.MarketController do
   end
   def index(conn, _params) do
     render(conn, "index.html")
+  end
+
+  def quicksell(conn, %{"search" => type_id}) do
+    item_search_results =
+      case EsiApi.jita_sell_search(String.to_integer(type_id)) do
+        {:ok, price} -> Formatter.shorthand(price)
+        {:error, message} -> "Error with search: #{message}"
+      end
+
+    conn
+    |> assign(:searched_for, type_id)
+    |> assign(:search_result, item_search_results)
+    |> render("quicksell.html")
+  end
+  def quicksell(conn, _params) do
+    render(conn, "quicksell.html")
   end
 end
 
