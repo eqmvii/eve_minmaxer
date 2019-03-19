@@ -59,3 +59,66 @@ Installed and working. Helpfully queries:
 SELECT items.*, prices.average_price FROM items
   JOIN prices on items.type_id = prices.type_id
 `
+
+# Important hard coded data
+
+* the forge region id: 10000002
+* jita structure id: 60003760
+
+# Interesting type_id
+
+34 Tritanium
+35 Pyerite
+36 Mexallon
+37 Isogen
+38 Nocxium
+40 Megacyte
+44992 PLEX (old?)
+645 Dominix
+
+# Test data
+
+[
+  %{
+    "duration" => 90,
+    "is_buy_order" => false,
+    "issued" => "2019-03-18T23:24:57Z",
+    "location_id" => 60003760,
+    "min_volume" => 1,
+    "order_id" => 5385644363,
+    "price" => 4.45,
+    "range" => "region",
+    "system_id" => 30000153,
+    "type_id" => 34,
+    "volume_remain" => 8256,
+    "volume_total" => 8256
+  },
+  %{
+    "duration" => 90,
+    "is_buy_order" => false,
+    "issued" => "2019-03-18T23:24:57Z",
+    "location_id" => 60003760,
+    "min_volume" => 1,
+    "order_id" => 5385644363,
+    "price" => 0.02,
+    "range" => "region",
+    "system_id" => 30000153,
+    "type_id" => 34,
+    "volume_remain" => 8256,
+    "volume_total" => 8256
+  },
+  %{
+    "duration" => 90,
+    "is_buy_order" => false,
+    "issued" => "2019-03-18T23:24:57Z",
+    "location_id" => 1,
+    "min_volume" => 1,
+    "order_id" => 5385644363,
+    "price" => 0.02,
+    "range" => "region",
+    "system_id" => 30000153,
+    "type_id" => 34,
+    "volume_remain" => 8256,
+    "volume_total" => 8256
+  }
+]
