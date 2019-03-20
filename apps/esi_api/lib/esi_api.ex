@@ -32,15 +32,19 @@ defmodule EsiApi do
   #   "volume_remain": 9,
   #   "volume_total": 10
   # }
-  def jita_sell_search(type_id) do # TODO ERIC This will only do the first page for now
+  def jita_search(type_id, opts) do # TODO ERIC This will only do the first page for now
     request_string =
-      "#{@base_url}/markets/#{@jita_region_id}/orders/?datasource=tranquility&order_type=sell&page=1&type_id=#{type_id}"
+      "#{@base_url}/markets/#{@jita_region_id}/orders/?datasource=tranquility&order_type=#{opts["order_type"]}&page=1&type_id=#{type_id}"
 
+      basic_jita_market_search(request_string, opts)
+  end
+
+  def basic_jita_market_search(request_string, opts) do
     with {:ok, item_data} <- request(request_string),
          {:ok, decoded_data} <- parse_market_data(item_data),
-         {:ok, lowest_sell_price} <- fetch_lowest(decoded_data)
+         {:ok, extreme_price} <- fetch_extreme(decoded_data, opts)
     do
-      {:ok, lowest_sell_price}
+      {:ok, extreme_price}
     else
       err -> raise inspect err, pretty: true, limit: :infinity
     end
@@ -65,14 +69,23 @@ defmodule EsiApi do
     end
   end
 
-  def fetch_lowest(decoded_data) do
-    min_price =
+  def fetch_extreme(decoded_data, %{"order_type" => "sell"}) do
+    extreme_price =
       decoded_data
       |> Enum.reject(fn x -> x["location_id"] != @jita_station_id end)
       |> Enum.map(fn x -> x["price"] end)
       |> Enum.min()
 
-    {:ok, min_price}
+    {:ok, extreme_price}
+  end
+  def fetch_extreme(decoded_data, %{"order_type" => "buy"}) do
+    extreme_price =
+      decoded_data
+      |> Enum.reject(fn x -> x["location_id"] != @jita_station_id end)
+      |> Enum.map(fn x -> x["price"] end)
+      |> Enum.max()
+
+    {:ok, extreme_price}
   end
 
   defp decode_item_data(item_data) do

@@ -25,7 +25,7 @@ defmodule WebappWeb.MarketController do
 
   def quicksell(conn, %{"search" => type_id}) do
     item_search_results =
-      case EsiApi.jita_sell_search(String.to_integer(type_id)) do
+      case EsiApi.jita_search(String.to_integer(type_id), %{"order_type" => "sell"}) do
         {:ok, price} -> Formatter.shorthand(price)
         {:error, message} -> "Error with search: #{message}"
       end
@@ -37,6 +37,20 @@ defmodule WebappWeb.MarketController do
   end
   def quicksell(conn, _params) do
     render(conn, "quicksell.html")
+  end
+
+  # TODO ERIC: Feel shame, refactor this.
+  def quickbuy(conn, %{"search" => type_id}) do
+    item_search_results =
+      case EsiApi.jita_search(String.to_integer(type_id), %{"order_type" => "buy"}) do
+        {:ok, price} -> Formatter.shorthand(price)
+        {:error, message} -> "Error with search: #{message}"
+      end
+
+    conn
+    |> assign(:searched_for, type_id)
+    |> assign(:search_result, item_search_results)
+    |> render("quicksell.html")
   end
 end
 

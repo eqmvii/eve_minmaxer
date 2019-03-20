@@ -1,7 +1,16 @@
+<%# TODO ERIC: RENAME %>
+
 <h1>Minimum Jita Sell Price</h1>
 
-<p>Enter a type_id</p>
+<p><strong>SELL: </strong>Enter a type_id</p>
 <%= form_for @conn, Routes.market_path(@conn, :quicksell), fn f -> %>
+  <%= text_input f, :search %>
+  <br />
+  <%= submit "Search" %>
+<% end %>
+
+<p><strong>BUY: </strong>Enter a type_id</p>
+<%= form_for @conn, Routes.market_path(@conn, :quickbuy), fn f -> %>
   <%= text_input f, :search %>
   <br />
   <%= submit "Search" %>
