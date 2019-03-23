@@ -51,16 +51,20 @@ defmodule EsiApi do
   end
 
   def item_search(item_name) do # TODO ERIC: Add configuration
-    item_data = # TODO ERIC remove unused variable
-      case request("#{@base_url}/search/?categories=inventory_type&datasource=tranquility&language=en-us&search=#{item_name}&strict=true") do
-        {:ok, item_data} -> {:ok, item_data} # todo eric -- refactor to be less explicit?
-        {:error, message} -> {:error, message}
-      end
+    search_uri = "#{@base_url}/search/?categories=inventory_type&datasource=tranquility&language=en-us&search=#{item_name}&strict=true"
+    case request(search_uri) do
+      {:ok, result} -> {:ok, parse_search_result(Poison.decode!(result))}
+      err -> err
+    end
   end
 
   #
   # Private Methods
   #
+
+  @spec parse_search_result(map()) :: integer
+  defp parse_search_result(%{"inventory_type" => [inventory_type]}), do: inventory_type
+
 
   defp parse_market_data(item_data) do
     case Poison.decode!(item_data) do

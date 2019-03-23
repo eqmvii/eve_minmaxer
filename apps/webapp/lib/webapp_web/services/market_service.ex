@@ -27,8 +27,8 @@ defmodule WebappWeb.MarketService do
 
   defp get_type_id_from_api(search_term) do
     case EsiApi.item_search(search_term) do
-      {:error, message} -> {:error, message}
       {:ok, type_id} -> add_item_to_db({search_term, type_id})
+      {:error, message} -> {:error, message}
     end
   end
 
