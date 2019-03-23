@@ -18,7 +18,7 @@ defmodule WebappWeb.PageController do
 
     conn
     |> assign(:name, "Eric Mancini")
-    |> assign(:plex_price, EsiApi.plex_price())
+    |> assign(:plex_price, Formatter.shorthand(EsiApi.plex_price()))
     |> assign(:name_from_db, name)
     |> render("index.html")
   end

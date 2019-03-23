@@ -16,7 +16,7 @@ defmodule WebappWeb.MarketController do
 
     conn
     |> assign(:searched_for, search_term)
-    |> assign(:search_result, item_search_results)
+    |> assign(:search_result, Formatter.shorthand(item_search_results))
     |> render("index.html")
   end
   def index(conn, _params) do

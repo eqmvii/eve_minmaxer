@@ -2,6 +2,8 @@
 
 <h1>Minimum Jita Sell Price</h1>
 
+<p>plex: 44992</p>
+
 <p><strong>SELL: </strong>Enter a type_id</p>
 <%= form_for @conn, Routes.market_path(@conn, :quicksell), fn f -> %>
   <%= text_input f, :search %>
