@@ -46,6 +46,7 @@ prices:
 
 Biggest issue: Only one price is stored, historically, forever. Make it update for prices that are stale.
 
+* Handle bad search queries better
 * Refactor prices and make it have a concept of freshness
 * Write tests
 * Build out universe info

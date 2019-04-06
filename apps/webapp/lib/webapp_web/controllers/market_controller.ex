@@ -24,6 +24,7 @@ defmodule WebappWeb.MarketController do
     render(conn, "index.html")
   end
 
+  # TODO ERIC maybe delete both of these
   def quicksell(conn, %{"search" => search_term}) do
     # TODO move this all into a service instead
     type_id =
@@ -47,7 +48,7 @@ defmodule WebappWeb.MarketController do
     render(conn, "quicksell.html")
   end
 
-  # TODO ERIC: Feel shame, refactor this.
+  # TODO ERIC: Feel shame, refactor this. Maybe delete quickbuy and quicksell?
   def quickbuy(conn, %{"search" => search_term}) do
     # TODO move this all into a service instead
     type_id =
@@ -66,6 +67,19 @@ defmodule WebappWeb.MarketController do
     |> assign(:searched_for, type_id)
     |> assign(:search_result, item_search_results)
     |> render("quicksell.html")
+  end
+
+  def jita_price(conn, %{"search" => search_term}) do
+    {:ok, {highest_buy, lowest_sell}} = MarketService.current_jita_prices(search_term) # TODO ERIC handle errors better here
+
+    conn
+    |> assign(:searched_for, search_term)
+    |> assign(:highest_buy, Formatter.shorthand(highest_buy))
+    |> assign(:lowest_sell, Formatter.shorthand(lowest_sell))
+    |> render("jita_price.html")
+  end
+  def jita_price(conn, _params) do
+    render(conn, "jita_price.html")
   end
 end
 

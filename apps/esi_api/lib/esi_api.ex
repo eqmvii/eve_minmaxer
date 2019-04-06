@@ -42,9 +42,9 @@ defmodule EsiApi do
   def basic_jita_market_search(request_string, opts) do
     with {:ok, item_data} <- request(request_string),
          {:ok, decoded_data} <- parse_market_data(item_data),
-         {:ok, extreme_price} <- fetch_extreme(decoded_data, opts)
+         {:ok, result} <- fetch_extreme(decoded_data, opts)
     do
-      {:ok, extreme_price}
+      {:ok, result}
     else
       err -> raise inspect err, pretty: true, limit: :infinity # TODO ERIC not this
     end
@@ -74,26 +74,35 @@ defmodule EsiApi do
     end
   end
 
+  @spec fetch_extreme(map(), map()) :: {:ok, non_neg_integer()} | {:ok, {non_neg_integer(), non_neg_integer()}}
   def fetch_extreme(decoded_data, %{"order_type" => "sell"}) do
-    extreme_price =
+    lowest_sell_price =
       decoded_data
-      |> Enum.reject(fn x -> x["location_id"] != @jita_station_id end)
+      |> Enum.reject(&(&1["is_buy_order"]))
+      |> Enum.reject(fn x -> x["location_id"] != @jita_station_id end) # TODO ERIC shorthand notation
       |> Enum.map(fn x -> x["price"] end)
       |> Enum.min()
 
-    {:ok, extreme_price}
+    {:ok, lowest_sell_price}
   end
   def fetch_extreme(decoded_data, %{"order_type" => "buy"}) do
-    extreme_price =
+    highest_buy_price =
       decoded_data
+      |> Enum.filter(&(&1["is_buy_order"]))
       |> Enum.reject(fn x -> x["location_id"] != @jita_station_id end)
       |> Enum.map(fn x -> x["price"] end)
       |> Enum.max()
 
-    {:ok, extreme_price}
+    {:ok, highest_buy_price}
+  end
+  def fetch_extreme(decoded_data, %{"order_type" => "all"}) do
+    {:ok, highest_buy} = fetch_extreme(decoded_data, %{"order_type" => "buy"})
+    {:ok, lowest_sell} = fetch_extreme(decoded_data, %{"order_type" => "sell"})
+
+    {:ok, {highest_buy, lowest_sell}}
   end
 
-  defp decode_item_data(item_data) do
+  defp decode_item_data(item_data) do # TODO ERIC function unused now?
     case Poison.decode!(item_data) do
       %{"inventory_type" => inventory_type} -> {:ok, Enum.at(inventory_type, 0)}
       _ -> {:error, "Search Error: #{item_data}"}

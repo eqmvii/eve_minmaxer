@@ -50,7 +50,7 @@ defmodule Webapp.Model.Price do
       Repo.update!(price)
     end
   end
-  def add_or_update(opts), do: raise inspect opts # TODO ERIC remove
+  def add_or_update(opts), do: raise inspect opts # TODO ERIC remove. This is raising on items with no average, like Erebus.
 
   defp get_by_type_id(type_id) do
     query =

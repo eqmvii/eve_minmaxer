@@ -1,0 +1,19 @@
+<h1>Jita Price</h1>
+
+<p><strong>Item: </strong></p>
+<%= form_for @conn, Routes.market_path(@conn, :jita_price), fn f -> %>
+  <%= text_input f, :search %>
+  <br />
+  <%= submit "Search" %>
+<% end %>
+
+<hr />
+<br />
+
+<%= if assigns[:searched_for] do %>
+  <h2>Results For "<%=assigns[:searched_for] %>"</h2>
+  <p><strong>Highest Buy: </strong> <%= assigns[:highest_buy] %></p>
+  <p><strong>Lowest Sell: </strong> <%= assigns[:lowest_sell] %></p>
+<% else %>
+  <h2>Search for something to see its price</h2>
+<% end %>

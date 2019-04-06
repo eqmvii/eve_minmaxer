@@ -24,6 +24,8 @@ defmodule WebappWeb.Router do
     get "/quicksell", MarketController, :quicksell
     post "/quicksell", MarketController, :quicksell
     post "/quickbuy", MarketController, :quickbuy
+    get "/jita_price", MarketController, :jita_price
+    post "/jita_price", MarketController, :jita_price
 
     get "/items", ItemsController, :index
   end
