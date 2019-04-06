@@ -32,7 +32,7 @@ defmodule WebappWeb.Formatter do
     |> Kernel.<>(unit)
   end
 
-  defp add_commas(number) do
+  defp add_commas(number) do # TODO BUG: This can produce weird numbers of zeros
     digits =
       number
       |> to_string
