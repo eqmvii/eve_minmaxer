@@ -17,7 +17,7 @@ Ecto.Adapters.SQL.query!(
 # mix run apps/webapp/priv/repo/cleanup_item_uris.exs
 # heroku run mix run apps/webapp/priv/repo/cleanup_item_uris.exs
 
-# Did not seem to work; errors:
+# Worked! But erros logged because idk:
 
 # 15:45:31.233 [error] Postgrex.Protocol
 # (#PID<0.317.0>) failed to connect: ** (Postgrex.Error) FATAL 53300 (too_many_connections)
