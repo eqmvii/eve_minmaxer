@@ -36,9 +36,9 @@ defmodule WebappWeb.PageController do
   end
 
   defp fetch_skill_data do
-    with {:ok, injector_price} <- WebappWeb.MarketService.item_search("large%20skill%20injector"), # TODO ERIC ugh shame
+    with {:ok, injector_price} <- WebappWeb.MarketService.item_search("large skill injector"), # TODO ERIC ugh shame
          {:ok, plex_price} <- WebappWeb.MarketService.item_search("plex"),
-         {:ok, extractor_price} <- WebappWeb.MarketService.item_search("skill%20extractor")
+         {:ok, extractor_price} <- WebappWeb.MarketService.item_search("skill extractor")
     do
       monthly_profit = calc_monthly_profic(injector_price, plex_price, extractor_price)
       {:ok, %{injector_price: Formatter.shorthand(injector_price),

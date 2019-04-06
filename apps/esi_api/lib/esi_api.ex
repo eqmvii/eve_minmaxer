@@ -64,6 +64,7 @@ defmodule EsiApi do
 
   @spec parse_search_result(map()) :: integer
   defp parse_search_result(%{"inventory_type" => [inventory_type]}), do: inventory_type
+  # defp parse_search_result(unexpected_data), do: raise inspect unexpected_data
 
 
   defp parse_market_data(item_data) do
