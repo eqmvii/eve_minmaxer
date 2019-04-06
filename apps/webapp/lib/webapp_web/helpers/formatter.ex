@@ -42,7 +42,7 @@ defmodule WebappWeb.Formatter do
     if digits > 3 do
       number = number |> to_string
       front_chunk = digits - 3
-      front = String.slice(number, 1, front_chunk)
+      front = String.slice(number, 0, front_chunk)
       back = String.slice(number, front_chunk, String.length(number))
 
       Enum.join([front, ",", back])
