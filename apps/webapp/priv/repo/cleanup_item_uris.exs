@@ -6,12 +6,12 @@ Ecto.Adapters.SQL.query!(
   Webapp.Repo,
   "DELETE FROM prices
     WHERE type_id in (
-      SELECT type_id FROM items WHERE (name ILIKE '%20%' OR name ILIKE '%=%')
+      SELECT type_id FROM items WHERE (name ILIKE '%20%' OR name ILIKE '%=%' OR name ILIKE '%+%')
     );",
   [])
 
 Ecto.Adapters.SQL.query!(
-  Webapp.Repo, "DELETE FROM items WHERE (name ILIKE '%20%' OR name ILIKE '%=%');", []
+  Webapp.Repo, "DELETE FROM items WHERE (name ILIKE '%20%' OR name ILIKE '%=%' OR name ILIKE '%+%');", []
 )
 
 # mix run apps/webapp/priv/repo/cleanup_item_uris.exs
