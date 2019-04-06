@@ -8,6 +8,7 @@ defmodule WebappWeb.MarketController do
   alias WebappWeb.Formatter
 
   def index(conn, %{"search" => search_term}) do
+
     item_search_results =
       case MarketService.item_search(search_term) do
         {:ok, price} -> price

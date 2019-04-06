@@ -122,3 +122,5 @@ SELECT items.*, prices.average_price FROM items
     "volume_total" => 8256
   }
 ]
+
+# BUGS: Duplicate items with similar encoded names (warrior+ii and warrior%20)

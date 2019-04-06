@@ -1,0 +1,2 @@
+-- Cleanup URI encoded items
+-- DELETE FROM prices WHERE type_id in (SELECT type_id FROM items WHERE (name ILIKE '%20%' OR name ILIKE '%=%'));

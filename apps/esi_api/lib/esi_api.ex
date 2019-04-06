@@ -51,7 +51,7 @@ defmodule EsiApi do
   end
 
   def item_search(item_name) do # TODO ERIC: Add configuration
-    search_uri = "#{@base_url}/search/?categories=inventory_type&datasource=tranquility&language=en-us&search=#{item_name}&strict=true"
+    search_uri = "#{@base_url}/search/?categories=inventory_type&datasource=tranquility&language=en-us&search=#{URI.encode(item_name)}&strict=true"
     case request(search_uri) do
       {:ok, result} -> {:ok, parse_search_result(Poison.decode!(result))}
       err -> err
