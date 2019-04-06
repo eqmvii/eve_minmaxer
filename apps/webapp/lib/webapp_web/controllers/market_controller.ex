@@ -24,9 +24,16 @@ defmodule WebappWeb.MarketController do
     render(conn, "index.html")
   end
 
-  def quicksell(conn, %{"search" => type_id}) do
+  def quicksell(conn, %{"search" => search_term}) do
+    # TODO move this all into a service instead
+    type_id =
+      case MarketService.get_type_id(search_term) do
+        {:ok, type_id} -> type_id
+        {:error, message} -> raise message # TODO handle this better
+      end
+
     item_search_results =
-      case EsiApi.jita_search(String.to_integer(type_id), %{"order_type" => "sell"}) do
+      case EsiApi.jita_search(type_id, %{"order_type" => "sell"}) do
         {:ok, price} -> Formatter.shorthand(price)
         {:error, message} -> "Error with search: #{message}"
       end
@@ -41,9 +48,16 @@ defmodule WebappWeb.MarketController do
   end
 
   # TODO ERIC: Feel shame, refactor this.
-  def quickbuy(conn, %{"search" => type_id}) do
+  def quickbuy(conn, %{"search" => search_term}) do
+    # TODO move this all into a service instead
+    type_id =
+      case MarketService.get_type_id(search_term) do
+        {:ok, type_id} -> type_id
+        {:error, message} -> raise message # TODO handle this better
+      end
+
     item_search_results =
-      case EsiApi.jita_search(String.to_integer(type_id), %{"order_type" => "buy"}) do
+      case EsiApi.jita_search(type_id, %{"order_type" => "buy"}) do
         {:ok, price} -> Formatter.shorthand(price)
         {:error, message} -> "Error with search: #{message}"
       end

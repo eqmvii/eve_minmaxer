@@ -6,7 +6,9 @@ defmodule WebappWeb.MarketService do
     "world"
   end
 
-  def item_search(search_term) do # TODO ERIC -- html encode the spaces for multi word items
+  def item_search(search_term) do
+    search_term = String.downcase(search_term)
+
     with {:ok, type_id} <- get_type_id(search_term),
          {:ok, price} <- get_price(type_id)
     do
@@ -16,14 +18,17 @@ defmodule WebappWeb.MarketService do
     end
   end
 
-  ### Private Methods
+  @spec get_type_id(String.t()) :: {:ok, pos_integer()} | {:error, String.t()}
+  def get_type_id(search_term) do
+    search_term = String.downcase(search_term)
 
-  defp get_type_id(search_term) do
     case Item.get_type_id_from_name(search_term) do
       nil -> get_type_id_from_api(search_term)
       type_id -> {:ok, type_id}
     end
   end
+
+  ### Private Methods
 
   defp get_type_id_from_api(search_term) do
     case EsiApi.item_search(search_term) do

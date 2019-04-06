@@ -2,16 +2,14 @@
 
 <h1>Minimum Jita Sell Price</h1>
 
-<p>plex: 44992</p>
-
-<p><strong>SELL: </strong>Enter a type_id</p>
+<p><strong>SELL: </strong></p>
 <%= form_for @conn, Routes.market_path(@conn, :quicksell), fn f -> %>
   <%= text_input f, :search %>
   <br />
   <%= submit "Search" %>
 <% end %>
 
-<p><strong>BUY: </strong>Enter a type_id</p>
+<p><strong>BUY: </strong></p>
 <%= form_for @conn, Routes.market_path(@conn, :quickbuy), fn f -> %>
   <%= text_input f, :search %>
   <br />
@@ -23,8 +21,7 @@
 
 <%= if assigns[:searched_for] do %>
   <h2>Results For "<%=assigns[:searched_for] %>"</h2>
-  <%# raise inspect assigns[:search_result] # TODO ERIC REMOVE %>
   <%= assigns[:search_result] %>
 <% else %>
-  <h2>Search for something (BYE TYPE_ID SORRY) to see its price</h2>
+  <h2>Search for something to see its price</h2>
 <% end %>

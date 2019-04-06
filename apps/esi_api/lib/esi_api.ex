@@ -46,7 +46,7 @@ defmodule EsiApi do
     do
       {:ok, extreme_price}
     else
-      err -> raise inspect err, pretty: true, limit: :infinity
+      err -> raise inspect err, pretty: true, limit: :infinity # TODO ERIC not this
     end
   end
 
