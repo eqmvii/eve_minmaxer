@@ -70,16 +70,24 @@ defmodule WebappWeb.MarketController do
   end
 
   def jita_price(conn, %{"search" => search_term}) do
-    {:ok, {highest_buy, lowest_sell}} = MarketService.current_jita_prices(search_term) # TODO ERIC handle errors better here
-
-    conn
+  conn =
+    search_term
+    |> MarketService.current_jita_prices()
+    |> assign_results(conn)
     |> assign(:searched_for, search_term)
-    |> assign(:highest_buy, Formatter.shorthand(highest_buy))
-    |> assign(:lowest_sell, Formatter.shorthand(lowest_sell))
-    |> render("jita_price.html")
+
+  render(conn, "jita_price.html")
   end
   def jita_price(conn, _params) do
     render(conn, "jita_price.html")
   end
+
+  @spec assign_results({:ok, {number(), number()}} | {:error, String.t()}, Plug.Conn.t()) :: Plug.Conn.t()
+  defp assign_results({:ok, {highest_buy, lowest_sell}}, conn) do
+    conn
+    |> assign(:highest_buy, Formatter.shorthand(highest_buy))
+    |> assign(:lowest_sell, Formatter.shorthand(lowest_sell))
+  end
+  defp assign_results({:error, message}, conn), do: assign(conn, :search_error, message)
 end
 

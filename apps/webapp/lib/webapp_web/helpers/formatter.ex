@@ -1,4 +1,6 @@
 defmodule WebappWeb.Formatter do
+
+  @spec shorthand(number()) :: String.t()
   def shorthand(number) do
     digits =
       number
@@ -32,7 +34,7 @@ defmodule WebappWeb.Formatter do
     |> Kernel.<>(unit)
   end
 
-  defp add_commas(number) do # TODO BUG: This can produce weird numbers of zeros
+  defp add_commas(number) do
     digits =
       number
       |> to_string

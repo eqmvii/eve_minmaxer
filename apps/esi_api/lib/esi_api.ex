@@ -53,7 +53,7 @@ defmodule EsiApi do
   def item_search(item_name) do # TODO ERIC: Add configuration
     search_uri = "#{@base_url}/search/?categories=inventory_type&datasource=tranquility&language=en-us&search=#{URI.encode(item_name)}&strict=true"
     case request(search_uri) do
-      {:ok, result} -> {:ok, parse_search_result(Poison.decode!(result))}
+      {:ok, result} -> parse_search_result(Poison.decode!(result))
       err -> err
     end
   end
@@ -62,9 +62,9 @@ defmodule EsiApi do
   # Private Methods
   #
 
-  @spec parse_search_result(map()) :: integer
-  defp parse_search_result(%{"inventory_type" => [inventory_type]}), do: inventory_type
-  # defp parse_search_result(unexpected_data), do: raise inspect unexpected_data
+  @spec parse_search_result(map()) :: {:ok, integer} | {:error, String.t()}
+  defp parse_search_result(%{"inventory_type" => [inventory_type]}), do: {:ok, inventory_type}
+  defp parse_search_result(_no_results), do: {:error, "No results from search"}
 
 
   defp parse_market_data(item_data) do

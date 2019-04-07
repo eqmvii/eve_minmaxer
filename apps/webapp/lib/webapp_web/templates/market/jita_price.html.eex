@@ -10,7 +10,10 @@
 <hr />
 <br />
 
-<%= if assigns[:searched_for] do %>
+<%= if assigns[:search_error] do %>
+  <strong>Error </strong> in search for "<%= assigns[:searched_for] %>" -- <%= assigns[:search_error] %>
+<% end %>
+<%= if assigns[:searched_for] && !assigns[:search_error] do %>
   <h2>Results For "<%=assigns[:searched_for] %>"</h2>
   <p><strong>Highest Buy: </strong> <%= assigns[:highest_buy] %></p>
   <p><strong>Lowest Sell: </strong> <%= assigns[:lowest_sell] %></p>

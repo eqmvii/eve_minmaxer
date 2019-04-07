@@ -31,8 +31,6 @@ defmodule WebappWeb.MarketService do
 
   @spec get_type_id(String.t()) :: {:ok, pos_integer()} | {:error, String.t()}
   def get_type_id(search_term) do
-    search_term = String.downcase(search_term)
-
     case Item.get_type_id_from_name(search_term) do
       nil -> get_type_id_from_api(search_term)
       type_id -> {:ok, type_id}
