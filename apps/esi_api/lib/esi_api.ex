@@ -46,7 +46,7 @@ defmodule EsiApi do
     do
       {:ok, result}
     else
-      err -> raise inspect err, pretty: true, limit: :infinity # TODO ERIC not this
+      err -> err
     end
   end
 
@@ -84,6 +84,8 @@ defmodule EsiApi do
       |> Enum.min()
 
     {:ok, lowest_sell_price}
+  rescue
+    err -> {:error, "Extreme price error"}
   end
   def fetch_extreme(decoded_data, %{"order_type" => "buy"}) do
     highest_buy_price =
@@ -94,13 +96,19 @@ defmodule EsiApi do
       |> Enum.max()
 
     {:ok, highest_buy_price}
+  rescue
+    err -> {:error, "Extreme price error"}
   end
   def fetch_extreme(decoded_data, %{"order_type" => "all"}) do
-    {:ok, highest_buy} = fetch_extreme(decoded_data, %{"order_type" => "buy"})
-    {:ok, lowest_sell} = fetch_extreme(decoded_data, %{"order_type" => "sell"})
+    highest_buy = fetch_extreme(decoded_data, %{"order_type" => "buy"})
+    lowest_sell = fetch_extreme(decoded_data, %{"order_type" => "sell"})
 
-    {:ok, {highest_buy, lowest_sell}}
+    parse_extreme_results(highest_buy, lowest_sell)
   end
+
+  @spec parse_extreme_results({:ok, number()} | {:error, String.t()}, {:ok, number()} | {:error, String.t()}) :: {:ok, tuple()} | {:error, String.t()}
+  defp parse_extreme_results({:ok, highest_buy}, {:ok, lowest_sell}), do: {:ok, {highest_buy, lowest_sell}}
+  defp parse_extreme_results(_highest_buy, _lowest_sell), do: {:error, "Error fetching highest/lowest prices"}
 
   defp decode_item_data(item_data) do # TODO ERIC function unused now?
     case Poison.decode!(item_data) do
