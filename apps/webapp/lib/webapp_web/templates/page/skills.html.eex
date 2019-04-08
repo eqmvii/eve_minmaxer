@@ -1,4 +1,4 @@
-<h1>Skill Training Math</h1>
+<h1>Skill Training Math, using current Jita sell:</h1>
 
 <ul>
   <li>PLEX: <%= @prices.plex_price %></li>

@@ -2,8 +2,17 @@ defmodule WebappWeb.MarketService do
   alias Webapp.Model.Item
   alias Webapp.Model.Price
 
-  def hello do
-    "world"
+  @spec current_jita_low_sell(String.t()) :: {:ok, non_neg_integer()} | {:error, String.t()}
+  def current_jita_low_sell(search_term) do
+    search_term = String.downcase(search_term)
+
+    with {:ok, type_id} <- get_type_id(search_term),
+         {:ok, price} <- EsiApi.jita_search(type_id, %{"order_type" => "sell"})
+    do
+         {:ok, price}
+    else
+         err -> err
+    end
   end
 
   @spec current_jita_prices(String.t()) :: {:ok, tuple()} # TODO make this a struct or something maybe?
@@ -19,6 +28,7 @@ defmodule WebappWeb.MarketService do
     end
   end
 
+  @spec item_search(String.t()) :: {:ok, non_neg_integer} | {:error, Sting.t()}
   def item_search(search_term) do
     with {:ok, type_id} <- get_type_id(search_term),
          {:ok, price} <- get_price(type_id)
