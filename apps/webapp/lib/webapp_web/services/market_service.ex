@@ -2,12 +2,26 @@ defmodule WebappWeb.MarketService do
   alias Webapp.Model.Item
   alias Webapp.Model.Price
 
+  # TODO ERIC refactor and combine these three functions
   @spec current_jita_low_sell(String.t()) :: {:ok, non_neg_integer()} | {:error, String.t()}
   def current_jita_low_sell(search_term) do
     search_term = String.downcase(search_term)
 
     with {:ok, type_id} <- get_type_id(search_term),
          {:ok, price} <- EsiApi.jita_search(type_id, %{"order_type" => "sell"})
+    do
+         {:ok, price}
+    else
+         err -> err
+    end
+  end
+
+  @spec current_jita_high_buy(String.t()) :: {:ok, non_neg_integer()} | {:error, String.t()}
+  def current_jita_high_buy(search_term) do
+    search_term = String.downcase(search_term)
+
+    with {:ok, type_id} <- get_type_id(search_term),
+         {:ok, price} <- EsiApi.jita_search(type_id, %{"order_type" => "buy"})
     do
          {:ok, price}
     else

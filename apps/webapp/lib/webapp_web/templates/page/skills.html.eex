@@ -1,8 +1,8 @@
 <h1>Skill Training Math, using current Jita sell:</h1>
 
 <ul>
-  <li>PLEX: <%= @prices.plex_price %></li>
-  <li>Extractor: <%= @prices.extractor_price %></li>
+  <li>PLEX: <%= @prices.plex_price %> (Jita highest buy)</li>
+  <li>Extractor: <%= @prices.extractor_price %> (for reference -- actually 112 PLEX at current NES store rate)</li>
   <li>Injector: <%= @prices.injector_price %></li>
 </ul>
 

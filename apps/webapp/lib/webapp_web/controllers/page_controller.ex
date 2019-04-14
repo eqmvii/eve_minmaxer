@@ -38,7 +38,7 @@ defmodule WebappWeb.PageController do
 
   defp fetch_skill_data do
     with {:ok, injector_price} <- MarketService.current_jita_low_sell("large skill injector"), # TODO ERIC ugh shame
-         {:ok, plex_price} <- MarketService.current_jita_low_sell("plex"),
+         {:ok, plex_price} <- MarketService.current_jita_high_buy("plex"),
          {:ok, extractor_price} <- MarketService.current_jita_low_sell("skill extractor")
     do
       monthly_profit = calc_monthly_profit(injector_price, plex_price, extractor_price)
@@ -54,6 +54,7 @@ defmodule WebappWeb.PageController do
     end
   end
 
+  # TODO ERIC: Determine if we should avoid looking at extractor market price and instead look at PLEX purchase
   defp calc_monthly_profit(injector_price, plex_price, extractor_price) do
     # large skill injector - 40520
     # plex - 44992
@@ -69,7 +70,9 @@ defmodule WebappWeb.PageController do
 
     injectors_per_month = monthly_sp_gained / 500_000
 
-    profit_per_injector = (injector_price * 0.9694) - extractor_price# 3%ish sales tax? Roughly accurate for me 4/8/2019
+    profit_per_injector = (injector_price * 0.9694) - (112 * plex_price)
+    # 3%ish sales tax? Roughly accurate for me 4/8/2019
+    # Current extractor sale is 10 for 1,120 plex so 112 plex each
 
     total = (injectors_per_month * profit_per_injector) - monthly_sub_cost
 
