@@ -12,7 +12,7 @@ config :logger, level: :warn
 # Configure your database
 config :webapp, Webapp.Repo,
   username: "postgres",
-  password: "postgres",
+  password: "password",
   database: "webapp_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
