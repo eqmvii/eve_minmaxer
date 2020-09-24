@@ -59,8 +59,8 @@ defmodule WebappWeb.PageController do
 
     injectors_per_month = monthly_sp_gained / 500_000
 
-    profit_per_injector = (injector_price * 0.9694) - (112 * plex_price)
-    # 3%ish sales tax? Roughly accurate for me 4/8/2019
+    profit_per_injector = (injector_price * 0.94703547) - (112 * plex_price)
+    # 5.3% ish tax + broker fee observed 9/23/2020
     # Current extractor sale is 10 for 1,120 plex so 112 plex each
 
     total = (injectors_per_month * profit_per_injector) - monthly_sub_cost
