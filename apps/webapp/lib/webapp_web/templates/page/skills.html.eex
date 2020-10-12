@@ -1,9 +1,19 @@
-<h1>Skill Training Math, using current Jita sell:</h1>
+<h1>Skill Training Math, using current Jita sell.</h1>
 
 <ul>
-  <li>PLEX: <%= @prices.plex_price %> (Jita highest buy)</li>
-  <li>Extractor: <%= @prices.extractor_price %> (for reference -- actually 112 PLEX at current NES store rate)</li>
-  <li>Injector: <%= @prices.injector_price %></li>
+  <li>PLEX, Jita high buy: <%= @prices.plex_price %> (Jita highest buy)</li>
+  <li>Extractor: <%= @prices.extractor_price %> (for reference only -- actually 112 PLEX at current NES store rate)</li>
+  <li>Injector, Jita low sell: <%= @prices.injector_price %></li>
+  <li>Assumes +5 / +4 implants </li>
 </ul>
 
-<h2>Per Month: <%= @prices.monthly_profit %></h2>
+<h2>Per Month, main sub: <%= @prices.monthly_profit_main %></h2>
+<h2>Per Month, multichar sub: <%= @prices.monthly_profit_multi %></h2>
+
+<hr />
+
+<h2> Reference Data (main / multi)</h2>
+
+<ul>
+  <li>10/12/2020:  106m / 146m </li>
+</ul>

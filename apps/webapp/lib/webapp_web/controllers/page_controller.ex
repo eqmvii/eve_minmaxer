@@ -30,11 +30,15 @@ defmodule WebappWeb.PageController do
          {:ok, plex_price} <- MarketService.current_jita_high_buy("plex"),
          {:ok, extractor_price} <- MarketService.current_jita_low_sell("skill extractor")
     do
-      monthly_profit = calc_monthly_profit(injector_price, plex_price, extractor_price)
+      monthly_profit_main = calc_monthly_profit(injector_price, plex_price, extractor_price)
+      # Only 485 PLEX required for multi-pilot training certificate
+      monthly_profit_multi = calc_monthly_profit(injector_price, plex_price, extractor_price, 485)
+
       {:ok, %{injector_price: Formatter.shorthand(injector_price),
               plex_price: Formatter.shorthand(plex_price),
               extractor_price: Formatter.shorthand(extractor_price),
-              monthly_profit: Formatter.shorthand(monthly_profit)
+              monthly_profit_main: Formatter.shorthand(monthly_profit_main),
+              monthly_profit_multi: Formatter.shorthand(monthly_profit_multi)
              }
       }
     else
@@ -44,22 +48,26 @@ defmodule WebappWeb.PageController do
   end
 
   # TODO ERIC: Determine if we should avoid looking at extractor market price and instead look at PLEX purchase
-  defp calc_monthly_profit(injector_price, plex_price, extractor_price) do
+  defp calc_monthly_profit(injector_price, plex_price, extractor_price, num_plex_to_sub \\ 500) do
     # large skill injector - 40520
     # plex - 44992
     # skill extractor - 40519
     # sp per minute - 44.5 (+5 / + 4)
     # sp per hour - 2670
 
-    # TODO: Tax Calcs
+    # Add 1000 to plex price, since that's around the minimum tick to place a higher bid
+    plex_price = plex_price + 1000
+    # Fee to play a buy order at TTT calculated 10/11/2020
+    buy_order_fee = 0.01
+    plex_price_after_broker_fee = (plex_price + (buy_order_fee * plex_price))
 
-    monthly_sub_cost = 500 * plex_price
+    monthly_sub_cost = num_plex_to_sub * plex_price_after_broker_fee
 
     monthly_sp_gained = 30 * 24 * 2670 # 1922400
 
     injectors_per_month = monthly_sp_gained / 500_000
 
-    profit_per_injector = (injector_price * 0.94703547) - (112 * plex_price)
+    profit_per_injector = (injector_price * 0.94703547) - (112 * plex_price_after_broker_fee)
     # 5.3% ish tax + broker fee observed 9/23/2020
     # Current extractor sale is 10 for 1,120 plex so 112 plex each
 
