@@ -30,15 +30,20 @@ defmodule WebappWeb.PageController do
          {:ok, plex_price} <- MarketService.current_jita_high_buy("plex"),
          {:ok, extractor_price} <- MarketService.current_jita_low_sell("skill extractor")
     do
-      monthly_profit_main = calc_monthly_profit(injector_price, plex_price, extractor_price)
+      five_four_monthly_profit_main = calc_monthly_profit(injector_price, plex_price, extractor_price, 500, 2_670)
       # Only 485 PLEX required for multi-pilot training certificate
-      monthly_profit_multi = calc_monthly_profit(injector_price, plex_price, extractor_price, 485)
+      five_four_monthly_profit_multi = calc_monthly_profit(injector_price, plex_price, extractor_price, 485, 2_670)
+
+      four_four_monthly_profit_main = calc_monthly_profit(injector_price, plex_price, extractor_price, 500, 2_610)
+      four_four_monthly_profit_multi = calc_monthly_profit(injector_price, plex_price, extractor_price, 485, 2_610)
 
       {:ok, %{injector_price: Formatter.shorthand(injector_price),
               plex_price: Formatter.shorthand(plex_price),
               extractor_price: Formatter.shorthand(extractor_price),
-              monthly_profit_main: Formatter.shorthand(monthly_profit_main),
-              monthly_profit_multi: Formatter.shorthand(monthly_profit_multi)
+              five_four_monthly_profit_main: Formatter.shorthand(five_four_monthly_profit_main),
+              five_four_monthly_profit_multi: Formatter.shorthand(five_four_monthly_profit_multi),
+              four_four_monthly_profit_main: Formatter.shorthand(four_four_monthly_profit_main),
+              four_four_monthly_profit_multi: Formatter.shorthand(four_four_monthly_profit_multi)
              }
       }
     else
@@ -48,12 +53,19 @@ defmodule WebappWeb.PageController do
   end
 
   # TODO ERIC: Determine if we should avoid looking at extractor market price and instead look at PLEX purchase
-  defp calc_monthly_profit(injector_price, plex_price, extractor_price, num_plex_to_sub \\ 500) do
+  defp calc_monthly_profit(injector_price, plex_price, extractor_price, num_plex_to_sub, sp_per_hour) do
     # large skill injector - 40520
     # plex - 44992
     # skill extractor - 40519
+    # Formula: Primary_Attribute + 0.50 × Secondary_Attribute
+    # Properly mapped, w +5 / +4 = 32 + (25 / 2)
     # sp per minute - 44.5 (+5 / + 4)
-    # sp per hour - 2670
+    # sp per hour - 2,670
+
+    # P, +5/+5 - 1,944,000 per month (2,700 per hour)
+    # P, +5/+4 - 1,922,400 per month (2,670 per hour)
+    # P, +4/+4 - 1,879,200 (2,610 per hour)
+    # P, +0/+0 - 1,620,000 per month (2,250 per hour)
 
     # Add 1000 to plex price, since that's around the minimum tick to place a higher bid
     plex_price = plex_price + 1000
@@ -63,7 +75,7 @@ defmodule WebappWeb.PageController do
 
     monthly_sub_cost = num_plex_to_sub * plex_price_after_broker_fee
 
-    monthly_sp_gained = 30 * 24 * 2670 # 1922400
+    monthly_sp_gained = 30 * 24 * sp_per_hour
 
     injectors_per_month = monthly_sp_gained / 500_000
 
@@ -71,9 +83,7 @@ defmodule WebappWeb.PageController do
     # 5.3% ish tax + broker fee observed 9/23/2020
     # Current extractor sale is 10 for 1,120 plex so 112 plex each
 
-    total = (injectors_per_month * profit_per_injector) - monthly_sub_cost
-
-    total
+    (injectors_per_month * profit_per_injector) - monthly_sub_cost
   end
 end
 
