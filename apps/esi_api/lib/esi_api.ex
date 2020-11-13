@@ -39,6 +39,29 @@ defmodule EsiApi do
       basic_jita_market_search(request_string, opts)
   end
 
+  # On pages: A header will alert if there is more than one page via x-pages, see below response header example:
+#   access-control-allow-credentials: true
+#  access-control-allow-headers: Content-Type,Authorization,If-None-Match,X-User-Agent
+#  access-control-allow-methods: GET,HEAD,OPTIONS
+#  access-control-allow-origin: *
+#  access-control-expose-headers: Content-Type,Warning,ETag,X-Pages,X-ESI-Error-Limit-Remain,X-ESI-Error-Limit-Reset
+#  access-control-max-age: 600
+#  allow: GET,HEAD,OPTIONS
+#  cache-control: public
+#  content-encoding: gzip
+#  content-type: application/json; charset=UTF-8
+#  date: Wed, 14 Oct 2020 18:33:17 GMT
+#  etag: "871850fda5066e1071c295a59d93cb2612bdc7aba0e79d8df279cfb2"
+#  expires: Wed, 14 Oct 2020 18:35:03 GMT
+#  last-modified: Wed, 14 Oct 2020 18:30:03 GMT
+#  status: 200
+#  strict-transport-security: max-age=31536000
+#  vary: Accept-Encoding
+#  x-esi-error-limit-remain: 100
+#  x-esi-error-limit-reset: 43
+#  x-esi-request-id: 65fc16a5-9552-4e57-b542-8a0870b8646b
+#  x-pages: 1
+
   def basic_jita_market_search(request_string, opts) do
     with {:ok, item_data} <- request(request_string),
          {:ok, decoded_data} <- parse_market_data(item_data),
