@@ -20,5 +20,16 @@
 <h2> Reference Data (main / multi)</h2>
 
 <ul>
-  <li>10/12/2020 @ +5/+4:  106m / 146m </li>
+  <li>10/12/2020 @ +5/+4:  <span class="green">106m / 146m</span></li>
+  <li>11/13/2020 @ +5/+4:  <span class="red">-83m / -42m</span></li>
 </ul>
+
+<style>
+  .red {
+    color: red;
+  }
+
+  .green {
+    color: green;
+  }
+</style>
